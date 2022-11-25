@@ -1,15 +1,10 @@
 #pragma once
-
+#include "Node.h";
 namespace Queue{
 
-	struct node {
-		int value;
-		node* next;
-	};
-
 	struct queue {
-		node* first = nullptr;
-		node* last = nullptr;
+		Node* first = nullptr;
+		Node* last = nullptr;
 		int length = 0;
 	};
 

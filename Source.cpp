@@ -2,32 +2,35 @@
 #include <iostream>
 #include <math.h>
 #include "Queue.h";
+#include "Stack.h";
+#include "Interface.h";
+#include "MouseEvents.h"
 #include "Exceptions.h";
 #include <stdlib.h> // Provides exit
 #include <ctype.h>
 int main()
 {
     const bool isDevelopment = true;
+    bool isRunning = true;
     try {
-        Queue::queue q;
-        Queue::push(q, 10);
-        Queue::push(q, 30);
-        Queue::pop(q);
-        std::cout << Queue::isEmpty(q);
-        Queue::top(q);
-        Queue::pop(q);
+        Stack::stack q;
+        std::cout <<Stack::top(q);
+        Stack::push(q, 10);
+        Stack::push(q, 30);
+        std::cout << Stack::isEmpty(q);
+        Stack::top(q);
+        Stack::pop(q);
     }
     catch (Exceptions::LogicException& err) {
-        std::cout << err.what();
+        HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(hStdout,
+            FOREGROUND_RED | FOREGROUND_INTENSITY);
+        std::cout <<'\n'<< err.what();
         Exceptions::logError(err.rootOfError(), isDevelopment);
     }
-    int gd = DETECT, gm;
-    char data[] = "C:\\MinGW\\lib\\libbgi.a";
-    initgraph(&gd, &gm, data);
-    //you can also pass NULL for third parameter if you did above setup successfully
-    //example: initgraph(&gd, &gm, NULL);
-    circle(300, 200, 100);
-    getch();
-    closegraph();
+    Interface::Interface inter;
+    Interface::initInterface();
+    Interface::createLayout(inter);
+    MouseEvents::startListening(inter);
     return 0;
 }
